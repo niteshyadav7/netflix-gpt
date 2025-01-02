@@ -1,16 +1,18 @@
-import React, { use, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  signInWithEmailAndPassword,updateProfile
 } from "firebase/auth";
 import { checkValidData } from "../utils/validate";
 import { auth } from "../utils/firebase";
-
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [isLoggedIn, setLoggedIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const navigate = useNavigate();
+  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
@@ -19,22 +21,32 @@ const Login = () => {
     setErrorMessage(message);
     if (message) return;
     if (!isLoggedIn) {
+      // Sign Up Logic
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
-          console.log(user);
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: "https://avatars.githubusercontent.com/u/12824231?v=4",
+          })
+            .then(() => {
+              navigate("/browse");
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.log(errorCode + " " + errorMessage);
+          setErrorMessage(errorCode + "-" + errorMessage);
         });
     } else {
+      // Sign In Logic
       signInWithEmailAndPassword(
         auth,
         email.current.value,
@@ -44,17 +56,16 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log(user);
-
-          // ...
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-
-          console.log(errorCode + " " + errorMessage);
+          setErrorMessage(errorCode + "-" + errorMessage);
         });
     }
   };
+  
 
   const handleClick = () => {
     setLoggedIn(!isLoggedIn);
@@ -76,7 +87,7 @@ const Login = () => {
           {isLoggedIn ? "SignIn" : "SignUp"}
         </h1>
         {!isLoggedIn && (
-          <input
+          <input ref={name}
             type="text"
             placeholder="First Name"
             className="p-4 my-4 w-full bg-gray-700"
