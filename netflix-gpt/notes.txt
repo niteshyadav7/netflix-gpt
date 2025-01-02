@@ -2,3 +2,11 @@ npm i -g firebase-tools
 firebase login
 firebase init
 firebase deploy
+
+
+
+eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTE3MjQwMmYwZDRlNGQ1MDBlYmUxMWM4OTU4ZmMyNiIsIm5iZiI6MTczNTgzNjk3MS41MDMsInN1YiI6IjY3NzZjNTJiMzYxNWMxYTM3NjEyYTVmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2Y2Y7AnMufIZcIWA3i_KUAPoYSNHfb1CaDzSPmjp5f0
+
+
+
+e9172402f0d4e4d500ebe11c8958fc26
