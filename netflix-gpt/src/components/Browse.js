@@ -1,15 +1,17 @@
-import { useEffect } from "react";
 import Header from "./Header";
-import { movieApiCall } from "../utils/api";
+import { useNowPlayingMovies } from "../Hooks/useNowPlayingMovies";
+import MainContainer from "./MainContainer";
+import usePopularMovies from "../Hooks/usePopularMovies";
+import SecondaryContainer from "./SecondaryContainer";
 
 const Browse = () => {
-  useEffect(() => {
-    movieApiCall();
-  }, []);
-
+  useNowPlayingMovies();
+  usePopularMovies()
   return (
     <>
       <Header />
+      <MainContainer />
+      <SecondaryContainer />
     </>
   );
 };
